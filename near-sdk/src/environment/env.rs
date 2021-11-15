@@ -234,6 +234,12 @@ pub fn keccak512(value: &[u8]) -> Vec<u8> {
     expect_register(read_register(ATOMIC_OP_REGISTER))
 }
 
+/// Recovers an ECDSA signer address from the provided signature using ecrecover
+pub fn ecrecover(hash: &[u8], signature: &[u8], v: u64, malleability_flag: u64) -> Vec<u8> {
+    unsafe { sys::ecrecover(hash.len() as _, hash.as_ptr() as _, signature.len() as _, signature.as_ptr() as _, v as _, malleability_flag as _, ATOMIC_OP_REGISTER) };
+    expect_register(read_register(ATOMIC_OP_REGISTER))
+}
+
 // ################
 // # Promises API #
 // ################
